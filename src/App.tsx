@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { fullGraphData, exportAsJSON, exportAsDot, exportAsMermaid } from './data';
 import { GraphNode, Category } from './data/types';
+import { projectGraphify } from './data/project-graphify';
 
 const categoryColors: Record<Category, string> = {
   tokenizer: '#4CAF50',
@@ -45,7 +46,7 @@ const sourceIcons: Record<string, string> = {
 function App() {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison'>('graph');
+  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project'>('graph');
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredNodes = useMemo(() => {
@@ -157,13 +158,13 @@ function App() {
 
         {/* View Mode Tabs */}
         <div className="flex gap-2 mb-4">
-          {(['graph', 'table', 'comparison'] as const).map(mode => (
+          {(['graph', 'table', 'comparison', 'project'] as const).map(mode => (
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === mode ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
             >
-              {mode === 'graph' ? '🕸️ Graph View' : mode === 'table' ? '📋 Table View' : '📊 Comparison'}
+              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : '🗺️ This Project'}
             </button>
           ))}
         </div>
@@ -469,6 +470,182 @@ function App() {
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Project Graphify View */}
+        {viewMode === 'project' && (
+          <div className="space-y-6">
+            {/* Project Stats */}
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h3 className="text-xl font-bold mb-4">🗺️ This Project — Self-Graphify</h3>
+              <p className="text-sm text-gray-400 mb-4">Complete architecture map of the Qwen3 Architecture Graph application itself.</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-gray-800 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-blue-400">{projectGraphify.metadata.totalNodes}</div>
+                  <div className="text-xs text-gray-400 mt-1">Nodes</div>
+                </div>
+                <div className="bg-gray-800 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-green-400">{projectGraphify.metadata.totalEdges}</div>
+                  <div className="text-xs text-gray-400 mt-1">Edges</div>
+                </div>
+                <div className="bg-gray-800 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-purple-400">{projectGraphify.metadata.fileCount}</div>
+                  <div className="text-xs text-gray-400 mt-1">Files</div>
+                </div>
+                <div className="bg-gray-800 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-orange-400">{projectGraphify.metadata.dataModules}</div>
+                  <div className="text-xs text-gray-400 mt-1">Data Modules</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Project Structure */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* File Tree */}
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <h4 className="font-semibold mb-3">📁 File Structure</h4>
+                <div className="text-sm font-mono space-y-1">
+                  <div className="text-gray-300">📂 src/</div>
+                  <div className="ml-4 text-gray-400">├── 📄 App.tsx <span className="text-gray-600">(main component)</span></div>
+                  <div className="ml-4 text-gray-400">├── 📄 main.tsx <span className="text-gray-600">(entry)</span></div>
+                  <div className="ml-4 text-gray-400">├── 📄 index.css <span className="text-gray-600">(styles)</span></div>
+                  <div className="ml-4 text-gray-300">└── 📂 data/</div>
+                  <div className="ml-8 text-gray-400">├── 📄 types.ts <span className="text-gray-600">(interfaces)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 index.ts <span className="text-gray-600">(aggregator)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 tokenizer.ts <span className="text-gray-600">(4 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 embedding.ts <span className="text-gray-600">(4 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 attention.ts <span className="text-gray-600">(8 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 feedforward.ts <span className="text-gray-600">(7 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 reasoning.ts <span className="text-gray-600">(8 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 builder.ts <span className="text-gray-600">(8 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 context.ts <span className="text-gray-600">(6 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 training-inference.ts <span className="text-gray-600">(11 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 safety-tools.ts <span className="text-gray-600">(11 nodes)</span></div>
+                  <div className="ml-8 text-gray-400">├── 📄 comparison.ts <span className="text-gray-600">(ratings)</span></div>
+                  <div className="ml-8 text-gray-400">└── 📄 project-graphify.ts <span className="text-gray-600">(self-ref)</span></div>
+                </div>
+              </div>
+
+              {/* Data Flow */}
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <h4 className="font-semibold mb-3">🔄 Data Flow Pipeline</h4>
+                <div className="space-y-2 text-sm">
+                  {projectGraphify.dataFlow.map((step, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="text-blue-400 font-mono text-xs mt-0.5">{i + 1}.</span>
+                      <span className="text-gray-300">{step.split('→').map((part, j) => (
+                        <span key={j}>
+                          {j > 0 && <span className="text-gray-600 mx-1">→</span>}
+                          <span className={j === part.trim().length - 1 ? 'text-blue-300' : ''}>{part.trim()}</span>
+                        </span>
+                      ))}</span>
+                    </div>
+                  ))}
+                </div>
+                <h4 className="font-semibold mt-6 mb-3">✨ Key Features</h4>
+                <div className="space-y-1 text-sm text-gray-400">
+                  {projectGraphify.keyFeatures.map((feature, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="text-green-400">•</span>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Project Graph Visualization */}
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="font-semibold mb-4">🕸️ Project Architecture Graph</h4>
+              <svg viewBox="0 0 900 500" className="w-full h-auto">
+                {/* Edges */}
+                {projectGraphify.edges.map((edge, i) => {
+                  const fromNode = projectGraphify.nodes.find(n => n.id === edge.from);
+                  const toNode = projectGraphify.nodes.find(n => n.id === edge.to);
+                  if (!fromNode || !toNode) return null;
+                  const fromIdx = projectGraphify.nodes.indexOf(fromNode);
+                  const toIdx = projectGraphify.nodes.indexOf(toNode);
+
+                  const cols = 8;
+                  const rows = Math.ceil(projectGraphify.nodes.length / cols);
+                  const fromX = (fromIdx % cols) * (850 / cols) + 50;
+                  const fromY = Math.floor(fromIdx / cols) * (450 / rows) + 50;
+                  const toX = (toIdx % cols) * (850 / cols) + 50;
+                  const toY = Math.floor(toIdx / cols) * (450 / rows) + 50;
+
+                  const color = edge.type === 'imports' ? '#4CAF50' : edge.type === 'renders' ? '#2196F3' : edge.type === 'exports' ? '#FF9800' : '#9C27B0';
+
+                  return (
+                    <line
+                      key={i}
+                      x1={fromX}
+                      y1={fromY}
+                      x2={toX}
+                      y2={toY}
+                      stroke={color}
+                      strokeWidth={edge.weight * 1.5}
+                      opacity={0.3}
+                    />
+                  );
+                })}
+                {/* Nodes */}
+                {projectGraphify.nodes.map((node, i) => {
+                  const cols = 8;
+                  const rows = Math.ceil(projectGraphify.nodes.length / cols);
+                  const x = (i % cols) * (850 / cols) + 50;
+                  const y = Math.floor(i / cols) * (450 / rows) + 50;
+
+                  const color = node.type === 'file' ? '#607D8B' :
+                               node.type === 'component' ? '#2196F3' :
+                               node.type === 'data-module' ? '#4CAF50' :
+                               node.type === 'export' ? '#FF9800' : '#9C27B0';
+
+                  return (
+                    <g key={node.id}>
+                      <circle cx={x} cy={y} r={8} fill={color} opacity={0.8} />
+                      <text x={x} y={y + 18} textAnchor="middle" fill="#aaa" fontSize="6">
+                        {node.label.length > 12 ? node.label.slice(0, 12) + '...' : node.label}
+                      </text>
+                    </g>
+                  );
+                })}
+              </svg>
+              <div className="mt-4 flex flex-wrap gap-4 text-xs">
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-gray-500 inline-block"></span> File</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Component</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Data Module</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-orange-500 inline-block"></span> Export</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> UI Element</span>
+              </div>
+            </div>
+
+            {/* Node Details Table */}
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 overflow-x-auto">
+              <h4 className="font-semibold mb-4">📋 All Project Nodes</h4>
+              <table className="w-full text-sm">
+                <thead className="text-gray-400 border-b border-gray-800">
+                  <tr>
+                    <th className="text-left py-2 px-2">ID</th>
+                    <th className="text-left py-2 px-2">Label</th>
+                    <th className="text-left py-2 px-2">Type</th>
+                    <th className="text-left py-2 px-2">Category</th>
+                    <th className="text-left py-2 px-2">Connections</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projectGraphify.nodes.map(node => (
+                    <tr key={node.id} className="border-b border-gray-800/50 hover:bg-gray-800/30">
+                      <td className="py-2 px-2 font-mono text-xs text-blue-300">{node.id}</td>
+                      <td className="py-2 px-2">{node.label}</td>
+                      <td className="py-2 px-2 text-gray-400">{node.type}</td>
+                      <td className="py-2 px-2 text-gray-400">{node.category}</td>
+                      <td className="py-2 px-2 text-gray-500 text-xs">{node.connections.length}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
