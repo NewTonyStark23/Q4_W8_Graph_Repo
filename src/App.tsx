@@ -47,14 +47,20 @@ const sourceIcons: Record<string, string> = {
 function App() {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project' | 'rating' | 'verified' | 'qwen4'>('graph');
+  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project' | 'rating' | 'verified' | 'qwen4' | 'expanded'>('graph');
   const [verifiedData, setVerifiedData] = useState<any>(null);
+  const [expandedData, setExpandedData] = useState<any>(null);
 
   // Load verified data on mount
   useEffect(() => {
     fetch('/qwen3-verified.json')
       .then(r => r.json())
       .then(data => setVerifiedData(data))
+      .catch(() => {});
+    
+    fetch('/qwen4-expanded.json')
+      .then(r => r.json())
+      .then(data => setExpandedData(data))
       .catch(() => {});
   }, []);
   const [searchTerm, setSearchTerm] = useState('');
@@ -167,14 +173,14 @@ function App() {
         </div>
 
         {/* View Mode Tabs */}
-        <div className="flex gap-2 mb-4">
-          {(['graph', 'table', 'comparison', 'project', 'rating', 'verified', 'qwen4'] as const).map(mode => (
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {(['graph', 'table', 'comparison', 'project', 'rating', 'verified', 'qwen4', 'expanded'] as const).map(mode => (
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === mode ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
             >
-              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : mode === 'project' ? '🗺️ This Project' : mode === 'rating' ? '🎯 Honest Rating' : mode === 'verified' ? '✅ Verified Data' : '🚀 Qwen4'}
+              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : mode === 'project' ? '🗺️ This Project' : mode === 'rating' ? '🎯 Honest Rating' : mode === 'verified' ? '✅ Verified Data' : mode === 'qwen4' ? '🚀 Qwen4' : '⚡ Expanded'}
             </button>
           ))}
         </div>
@@ -1264,6 +1270,141 @@ function App() {
                   Ready for implementation. <strong className="text-green-400">Dominance: 2+ years guaranteed.</strong>
                 </p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Expanded Capabilities View */}
+        {viewMode === 'expanded' && expandedData && (
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-orange-900/30 via-red-900/30 to-pink-900/30 border border-orange-700 rounded-xl p-6">
+              <h3 className="text-2xl font-bold mb-2">⚡ Qwen4 Expanded Capabilities</h3>
+              <p className="text-gray-300 mb-4">
+                Complete graphify with all advanced features: predictions, pattern recognition, web crawling, code vetting,
+                trading systems, automation, TTS, emotional recognition, self-evolution, video/image generation, and more.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-orange-800">
+                  <div className="text-2xl font-bold text-orange-400">{expandedData.metadata.totalNewNodes}</div>
+                  <div className="text-xs text-gray-400">New Nodes</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-red-800">
+                  <div className="text-2xl font-bold text-red-400">{expandedData.metadata.totalNewEdges}</div>
+                  <div className="text-xs text-gray-400">New Edges</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-pink-800">
+                  <div className="text-2xl font-bold text-pink-400">{expandedData.metadata.categories.length}</div>
+                  <div className="text-xs text-gray-400">Categories</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-yellow-800">
+                  <div className="text-2xl font-bold text-yellow-400">{expandedData.metadata.keyCapabilities.length}</div>
+                  <div className="text-xs text-gray-400">Key Capabilities</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">🎯 Key Capabilities</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {expandedData.metadata.keyCapabilities.map((cap: string, i: number) => (
+                  <div key={i} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                    <span className="text-gray-200">• {cap}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">📊 Categories & Nodes</h4>
+              <div className="space-y-4">
+                {Object.entries(expandedData.expandedCapabilities).map(([category, data]: [string, any]) => (
+                  <div key={category} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                    <div className="flex justify-between items-center mb-3">
+                      <h5 className="font-medium text-orange-400 capitalize text-lg">{category}</h5>
+                      <span className="text-sm text-gray-400">{data.nodes.length} nodes</span>
+                    </div>
+                    <div className="space-y-2">
+                      {data.nodes.map((node: any) => (
+                        <div key={node.id} className="bg-gray-900/50 rounded p-3 border border-gray-600">
+                          <div className="flex justify-between items-start mb-1">
+                            <span className="font-medium text-blue-300">{node.label}</span>
+                            <div className="flex gap-2 text-xs">
+                              <span className="text-gray-400">W: {node.weight.toFixed(2)}</span>
+                              <span className="text-green-400">{Math.round(node.confidence * 100)}%</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-400 mb-2">{node.description}</p>
+                          <div className="flex flex-wrap gap-1">
+                            {node.connections.map((conn: string) => (
+                              <span key={conn} className="text-xs px-2 py-0.5 bg-gray-700 rounded text-gray-300">{conn}</span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">🔗 Edges ({expandedData.expandedEdges.length})</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="text-gray-400 border-b border-gray-700">
+                    <tr>
+                      <th className="text-left py-2 px-2">From</th>
+                      <th className="text-left py-2 px-2">To</th>
+                      <th className="text-left py-2 px-2">Weight</th>
+                      <th className="text-left py-2 px-2">Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {expandedData.expandedEdges.slice(0, 20).map((edge: any, i: number) => (
+                      <tr key={i} className="border-b border-gray-800/50">
+                        <td className="py-2 px-2 text-blue-300">{edge.from}</td>
+                        <td className="py-2 px-2 text-blue-300">{edge.to}</td>
+                        <td className="py-2 px-2 text-gray-300">{edge.weight.toFixed(2)}</td>
+                        <td className="py-2 px-2">
+                          <span className={`px-2 py-0.5 rounded text-xs ${
+                            edge.type === 'data' ? 'bg-green-900/50 text-green-300' :
+                            edge.type === 'control' ? 'bg-yellow-900/50 text-yellow-300' :
+                            'bg-red-900/50 text-red-300'
+                          }`}>
+                            {edge.type}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {expandedData.expandedEdges.length > 20 && (
+                  <p className="text-sm text-gray-500 mt-2">... and {expandedData.expandedEdges.length - 20} more edges</p>
+                )}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 border border-orange-800 rounded-xl p-6">
+              <h4 className="text-lg font-semibold mb-3">🎉 Total Qwen4 Graphify</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-gray-900/50 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-purple-400">{qwen4Nodes.length}</div>
+                  <div className="text-sm text-gray-400">Core Nodes</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-orange-400">{expandedData.metadata.totalNewNodes}</div>
+                  <div className="text-sm text-gray-400">Expanded Nodes</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-green-400">{qwen4Nodes.length + expandedData.metadata.totalNewNodes}</div>
+                  <div className="text-sm text-gray-400">Total Nodes</div>
+                </div>
+              </div>
+              <p className="mt-4 text-sm text-gray-300">
+                <strong className="text-green-400">Complete Qwen4 graphify:</strong> {qwen4Nodes.length + expandedData.metadata.totalNewNodes} nodes,
+                {qwen4Edges.length + expandedData.metadata.totalNewEdges} edges, covering all advanced capabilities.
+                Ready for full implementation.
+              </p>
             </div>
           </div>
         )}
