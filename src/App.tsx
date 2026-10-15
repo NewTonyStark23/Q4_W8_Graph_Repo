@@ -3,6 +3,7 @@ import { fullGraphData, exportAsJSON, exportAsDot, exportAsMermaid } from './dat
 import { GraphNode, Category } from './data/types';
 import { projectGraphify } from './data/project-graphify';
 import { qwen4Nodes, qwen4Edges, qwen4Metadata } from './data/qwen4-data';
+import { getReasoningEngineStats, getVisualizationData, reasoningPatterns, atomicMemories } from './reasoning-engine';
 
 const categoryColors: Record<Category, string> = {
   tokenizer: '#4CAF50',
@@ -47,7 +48,7 @@ const sourceIcons: Record<string, string> = {
 function App() {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project' | 'rating' | 'verified' | 'qwen4' | 'expanded'>('graph');
+  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project' | 'rating' | 'verified' | 'qwen4' | 'expanded' | 'reasoning'>('graph');
   const [verifiedData, setVerifiedData] = useState<any>(null);
   const [expandedData, setExpandedData] = useState<any>(null);
 
@@ -180,7 +181,7 @@ function App() {
               onClick={() => setViewMode(mode)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === mode ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
             >
-              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : mode === 'project' ? '🗺️ This Project' : mode === 'rating' ? '🎯 Honest Rating' : mode === 'verified' ? '✅ Verified Data' : mode === 'qwen4' ? '🚀 Qwen4' : '⚡ Expanded'}
+              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : mode === 'project' ? '🗺️ This Project' : mode === 'rating' ? '🎯 Honest Rating' : mode === 'verified' ? '✅ Verified Data' : mode === 'qwen4' ? '🚀 Qwen4' : mode === 'expanded' ? '⚡ Expanded' : '🧠 Reasoning Engine'}
             </button>
           ))}
         </div>
@@ -1404,6 +1405,133 @@ function App() {
                 <strong className="text-green-400">Complete Qwen4 graphify:</strong> {qwen4Nodes.length + expandedData.metadata.totalNewNodes} nodes,
                 {qwen4Edges.length + expandedData.metadata.totalNewEdges} edges, covering all advanced capabilities.
                 Ready for full implementation.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Reasoning Engine View */}
+        {viewMode === 'reasoning' && (
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-cyan-900/30 via-blue-900/30 to-purple-900/30 border border-cyan-700 rounded-xl p-6">
+              <h3 className="text-2xl font-bold mb-2">🧠 Qwen4 Reasoning Engine</h3>
+              <p className="text-gray-300 mb-4">
+                Pre-compressed reasoning engine with executable patterns, atomic memories, and learning loops.
+                Designed to run on a 0.5B executor model with Qwen4-level intelligence.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-cyan-800">
+                  <div className="text-2xl font-bold text-cyan-400">{reasoningPatterns.length}</div>
+                  <div className="text-xs text-gray-400">Reasoning Patterns</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-blue-800">
+                  <div className="text-2xl font-bold text-blue-400">{atomicMemories.length}</div>
+                  <div className="text-xs text-gray-400">Atomic Memories</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-purple-800">
+                  <div className="text-2xl font-bold text-purple-400">0.5B</div>
+                  <div className="text-xs text-gray-400">Executor Model</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-green-800">
+                  <div className="text-2xl font-bold text-green-400">~50MB</div>
+                  <div className="text-xs text-gray-400">Graph Size</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-3 text-center border border-orange-800">
+                  <div className="text-2xl font-bold text-orange-400">Video Game</div>
+                  <div className="text-xs text-gray-400">Rendering Model</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">🎯 Core Concept: Reasoning OS (Not a Model)</h4>
+              <div className="space-y-3 text-sm text-gray-300">
+                <p><strong className="text-cyan-400">Like a video game engine:</strong> The world (complete reasoning graph) exists, but only what's in view (active reasoning segments) is rendered.</p>
+                <p><strong className="text-blue-400">Resource efficiency:</strong> Graph structure ~50MB, active segments 200MB-8GB (scales with task), sleeps unused components.</p>
+                <p><strong className="text-purple-400">Predictive loading:</strong> Anticipates user needs and pre-loads reasoning segments before they're needed.</p>
+                <p><strong className="text-green-400">Quick-swap:</strong> Drops unused contexts, loads new ones in milliseconds, merges contexts for faster reasoning.</p>
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">📊 Reasoning Patterns by Category</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {[...new Set(reasoningPatterns.map(p => p.category))].map(cat => {
+                  const count = reasoningPatterns.filter(p => p.category === cat).length;
+                  return (
+                    <div key={cat} className="bg-gray-800/50 rounded-lg p-3 text-center border border-gray-700">
+                      <div className="text-lg font-bold text-cyan-400">{count}</div>
+                      <div className="text-xs text-gray-400 capitalize">{cat}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">🧩 Atomic Memories by Category</h4>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                {[...new Set(atomicMemories.map(m => m.category))].map(cat => {
+                  const count = atomicMemories.filter(m => m.category === cat).length;
+                  return (
+                    <div key={cat} className="bg-gray-800/50 rounded-lg p-3 text-center border border-gray-700">
+                      <div className="text-lg font-bold text-blue-400">{count}</div>
+                      <div className="text-xs text-gray-400 capitalize">{cat}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-xl font-semibold mb-4">🔗 Reasoning Pattern Details</h4>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {reasoningPatterns.slice(0, 10).map(pattern => (
+                  <div key={pattern.id} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <div className="font-medium text-cyan-300">{pattern.name}</div>
+                        <div className="text-xs text-gray-400 capitalize">{pattern.category}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm text-green-400">{Math.round(pattern.confidence * 100)}%</div>
+                        <div className="text-xs text-gray-400">confidence</div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-400 mb-2">{pattern.algorithm.description}</p>
+                    <div className="flex flex-wrap gap-1">
+                      <span className="text-xs px-2 py-0.5 bg-purple-900/50 text-purple-300 rounded">{pattern.algorithm.complexity}</span>
+                      <span className="text-xs px-2 py-0.5 bg-blue-900/50 text-blue-300 rounded">{pattern.reasoningChain.length} steps</span>
+                      <span className="text-xs px-2 py-0.5 bg-green-900/50 text-green-300 rounded">{pattern.atomicMemories.length} memories</span>
+                    </div>
+                  </div>
+                ))}
+                {reasoningPatterns.length > 10 && (
+                  <p className="text-sm text-gray-500">... and {reasoningPatterns.length - 10} more patterns</p>
+                )}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-cyan-900/20 to-purple-900/20 border border-cyan-800 rounded-xl p-6">
+              <h4 className="text-lg font-semibold mb-3">🎉 Reasoning Engine Status</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-gray-900/50 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-cyan-400">{reasoningPatterns.length}</div>
+                  <div className="text-sm text-gray-400">Executable Patterns</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-blue-400">{atomicMemories.length}</div>
+                  <div className="text-sm text-gray-400">Atomic Memories</div>
+                </div>
+                <div className="bg-gray-900/50 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-green-400">Ready</div>
+                  <div className="text-sm text-gray-400">For 0.5B Executor</div>
+                </div>
+              </div>
+              <p className="mt-4 text-sm text-gray-300">
+                <strong className="text-green-400">Complete reasoning engine:</strong> {reasoningPatterns.length} executable patterns,
+                {atomicMemories.length} atomic memories, full learning loop, multi-modal I/O, resource management.
+                Ready for 0.5B executor model implementation.
               </p>
             </div>
           </div>
