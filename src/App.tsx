@@ -46,7 +46,7 @@ const sourceIcons: Record<string, string> = {
 function App() {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project'>('graph');
+  const [viewMode, setViewMode] = useState<'graph' | 'table' | 'comparison' | 'project' | 'rating'>('graph');
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredNodes = useMemo(() => {
@@ -158,13 +158,13 @@ function App() {
 
         {/* View Mode Tabs */}
         <div className="flex gap-2 mb-4">
-          {(['graph', 'table', 'comparison', 'project'] as const).map(mode => (
+          {(['graph', 'table', 'comparison', 'project', 'rating'] as const).map(mode => (
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === mode ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
             >
-              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : '🗺️ This Project'}
+              {mode === 'graph' ? '🕸️ Qwen3 Graph' : mode === 'table' ? '📋 Table View' : mode === 'comparison' ? '📊 Comparison' : mode === 'project' ? '🗺️ This Project' : '🎯 Honest Rating'}
             </button>
           ))}
         </div>
@@ -646,6 +646,180 @@ function App() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* Honest Rating View */}
+        {viewMode === 'rating' && (
+          <div className="space-y-6">
+            {/* Main Rating Card */}
+            <div className="bg-gradient-to-br from-red-900/20 to-orange-900/20 border border-red-800 rounded-xl p-6">
+              <h3 className="text-2xl font-bold mb-2">🎯 Honest Rating: How Close to 1:1 Weights?</h3>
+              <p className="text-gray-400 mb-6">The brutal truth about what we have vs. what actual weights would require</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gray-900/50 rounded-lg p-5 border border-gray-700">
+                  <div className="text-center">
+                    <div className="text-5xl font-bold text-green-400 mb-2">86.5%</div>
+                    <div className="text-sm text-gray-400 mb-3">Graphify Score</div>
+                    <div className="text-xs text-gray-500">How complete our architectural blueprint is</div>
+                    <div className="mt-3 text-xs text-green-400">✅ Excellent for understanding</div>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-900/50 rounded-lg p-5 border border-gray-700">
+                  <div className="text-center">
+                    <div className="text-5xl font-bold text-red-400 mb-2">8-12%</div>
+                    <div className="text-sm text-gray-400 mb-3">Weight Accuracy</div>
+                    <div className="text-xs text-gray-500">How close to actual numerical weights</div>
+                    <div className="mt-3 text-xs text-red-400">❌ Cannot reproduce exact behavior</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-gray-900/50 rounded-lg border border-gray-700">
+                <p className="text-sm text-gray-300">
+                  <strong className="text-yellow-400">The Gap:</strong> We have the architectural map (86.5% complete), 
+                  but not the terrain itself (8-12% of actual weights). It's like having a building blueprint 
+                  without the actual building materials.
+                </p>
+              </div>
+            </div>
+
+            {/* Dimension Breakdown */}
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-lg font-semibold mb-4">📊 Dimension-by-Dimension Rating</h4>
+              <div className="space-y-4">
+                {[
+                  { name: 'Architectural Structure', score: 87.5, color: 'green', desc: 'We know where every room is and how big they are' },
+                  { name: 'Connection Patterns', score: 72.5, color: 'yellow', desc: 'We know how rooms connect, but not every hallway' },
+                  { name: 'Configuration Parameters', score: 65, color: 'yellow', desc: 'We know room dimensions, but not furniture placement' },
+                  { name: 'Behavioral Patterns', score: 55, color: 'orange', desc: 'We know how people move, but not exact paths' },
+                  { name: 'Actual Numerical Weights', score: 7.5, color: 'red', desc: 'We have ZERO actual weight values' },
+                  { name: 'Training Process', score: 45, color: 'orange', desc: 'We know recipe categories, not exact measurements' }
+                ].map((dim, i) => (
+                  <div key={i} className="bg-gray-800/50 rounded-lg p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">{dim.name}</span>
+                      <span className={`text-lg font-bold text-${dim.color}-400`}>{dim.score}%</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+                      <div 
+                        className={`h-2 rounded-full bg-${dim.color}-500`}
+                        style={{ width: `${dim.score}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-xs text-gray-400">{dim.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* What We Have vs What We Need */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <h4 className="text-lg font-semibold mb-4 text-green-400">✅ What We Have</h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-400 mt-0.5">•</span>
+                    <span>Complete architectural blueprint (86 nodes)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-400 mt-0.5">•</span>
+                    <span>Connection patterns (95+ edges)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-400 mt-0.5">•</span>
+                    <span>Configuration parameters (dimensions, counts)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-400 mt-0.5">•</span>
+                    <span>Behavioral patterns (reasoning, safety, tools)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-400 mt-0.5">•</span>
+                    <span>Relative importance scores</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <h4 className="text-lg font-semibold mb-4 text-red-400">❌ What We Need for 1:1</h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-400 mt-0.5">•</span>
+                    <span>235 billion floating-point numbers</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-400 mt-0.5">•</span>
+                    <span>~470 GB checkpoint file</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-400 mt-0.5">•</span>
+                    <span>Layer-by-layer weight matrices</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-400 mt-0.5">•</span>
+                    <span>Exact numerical values (FP16/BF16)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-400 mt-0.5">•</span>
+                    <span>Precision down to 16-bit accuracy</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Use Cases */}
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <h4 className="text-lg font-semibold mb-4">🎯 What You Can Do With This</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-green-900/20 border border-green-800 rounded-lg p-4">
+                  <div className="text-green-400 font-semibold mb-2">90% Useful For:</div>
+                  <ul className="text-xs space-y-1 text-gray-300">
+                    <li>• Understanding architecture</li>
+                    <li>• Learning MoE patterns</li>
+                    <li>• Studying reasoning design</li>
+                    <li>• Designing similar systems</li>
+                  </ul>
+                </div>
+                <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-4">
+                  <div className="text-yellow-400 font-semibold mb-2">60-70% Useful For:</div>
+                  <ul className="text-xs space-y-1 text-gray-300">
+                    <li>• Building similar systems</li>
+                    <li>• Implementing reasoning</li>
+                    <li>• Creating tool integration</li>
+                    <li>• Experimentation guide</li>
+                  </ul>
+                </div>
+                <div className="bg-red-900/20 border border-red-800 rounded-lg p-4">
+                  <div className="text-red-400 font-semibold mb-2">5-10% Useful For:</div>
+                  <ul className="text-xs space-y-1 text-gray-300">
+                    <li>• Exact reproduction</li>
+                    <li>• Matching benchmarks</li>
+                    <li>• Drop-in replacement</li>
+                    <li>• Weight extraction</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Line */}
+            <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-800 rounded-xl p-6">
+              <h4 className="text-lg font-semibold mb-3">💡 The Bottom Line</h4>
+              <div className="space-y-3 text-sm text-gray-300">
+                <p>
+                  <strong className="text-blue-400">This graph is a map. The weights are the territory.</strong>
+                </p>
+                <p>
+                  We have an <strong className="text-green-400">excellent map</strong> (86.5% complete), 
+                  but we don't have <strong className="text-red-400">the territory</strong> (only 8-12% of actual weights).
+                </p>
+                <p className="text-gray-400">
+                  Use this as an architectural reference and design guide — not as a weight replacement or exact reproduction.
+                </p>
+              </div>
             </div>
           </div>
         )}
