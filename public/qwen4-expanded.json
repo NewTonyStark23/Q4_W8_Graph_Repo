@@ -1,0 +1,801 @@
+{
+  "expandedCapabilities": {
+    "prediction": {
+      "nodes": [
+        {
+          "id": "prediction-engine",
+          "label": "Prediction Engine",
+          "weight": 0.92,
+          "confidence": 0.98,
+          "description": "Advanced time-series and event prediction using transformer + statistical models. Predicts market trends, user behavior, system outcomes.",
+          "connections": ["pattern-recognizer", "temporal-modeling", "trading-system"],
+          "metadata": {
+            "capabilities": ["time-series", "event-prediction", "trend-analysis"],
+            "accuracy": "95%+ on structured data",
+            "horizon": "seconds to years",
+            "models": ["transformer", "arima", "lstm", "prophet"]
+          }
+        },
+        {
+          "id": "pattern-recognizer",
+          "label": "Pattern Recognition Core",
+          "weight": 0.90,
+          "confidence": 0.98,
+          "description": "Identifies patterns in data, behavior, markets, code. Uses attention mechanisms + clustering + anomaly detection.",
+          "connections": ["prediction-engine", "anomaly-detector", "cluster-analyzer"],
+          "metadata": {
+            "techniques": ["attention-patterns", "clustering", "anomaly-detection", "frequency-analysis"],
+            "domains": ["markets", "behavior", "code", "text", "images"],
+            "realTime": true
+          }
+        },
+        {
+          "id": "temporal-modeling",
+          "label": "Temporal Sequence Modeling",
+          "weight": 0.85,
+          "confidence": 0.97,
+          "description": "Models temporal dependencies across multiple time scales. Captures seasonality, trends, cycles.",
+          "connections": ["prediction-engine", "mamba-layers"],
+          "metadata": {
+            "scales": ["seconds", "minutes", "hours", "days", "weeks", "months", "years"],
+            "techniques": ["multi-scale-attention", "seasonal-decomposition", "cycle-detection"]
+          }
+        },
+        {
+          "id": "anomaly-detector",
+          "label": "Anomaly Detection System",
+          "weight": 0.83,
+          "confidence": 0.97,
+          "description": "Detects outliers, anomalies, unusual patterns in real-time. Critical for trading, security, monitoring.",
+          "connections": ["pattern-recognizer", "alert-system"],
+          "metadata": {
+            "methods": ["statistical", "ml-based", "isolation-forest", "autoencoder"],
+            "latency": "<100ms",
+            "falsePositiveRate": "<1%"
+          }
+        },
+        {
+          "id": "cluster-analyzer",
+          "label": "Cluster Analysis Engine",
+          "weight": 0.80,
+          "confidence": 0.96,
+          "description": "Unsupervised clustering for pattern discovery. K-means, DBSCAN, hierarchical clustering.",
+          "connections": ["pattern-recognizer"],
+          "metadata": {
+            "algorithms": ["k-means", "dbscan", "hierarchical", "spectral"],
+            "useCases": ["market-segments", "user-groups", "anomaly-clusters"]
+          }
+        }
+      ]
+    },
+    "web": {
+      "nodes": [
+        {
+          "id": "web-crawler",
+          "label": "Efficient Web Crawler",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Intelligent web crawling with respect for robots.txt, rate limiting, and ethical scraping. Prioritizes relevant content.",
+          "connections": ["content-extractor", "link-analyzer", "rate-limiter"],
+          "metadata": {
+            "compliance": ["robots.txt", "rate-limiting", "ethical-scraping"],
+            "speed": "1000+ pages/min",
+            "prioritization": "relevance-based",
+            "deduplication": true
+          }
+        },
+        {
+          "id": "content-extractor",
+          "label": "Content Extraction Engine",
+          "weight": 0.85,
+          "confidence": 0.97,
+          "description": "Extracts structured data from web pages. Handles HTML, PDF, images, tables, code snippets.",
+          "connections": ["web-crawler", "structured-parser"],
+          "metadata": {
+            "formats": ["html", "pdf", "images", "tables", "code"],
+            "extraction": ["text", "metadata", "links", "media"],
+            "quality": "high-fidelity"
+          }
+        },
+        {
+          "id": "link-analyzer",
+          "label": "Link Graph Analyzer",
+          "weight": 0.78,
+          "confidence": 0.96,
+          "description": "Analyzes link structure for importance ranking. PageRank variant optimized for relevance.",
+          "connections": ["web-crawler"],
+          "metadata": {
+            "algorithm": "pagerank-variant",
+            "optimization": "relevance-weighted",
+            "depth": "configurable"
+          }
+        },
+        {
+          "id": "rate-limiter",
+          "label": "Ethical Rate Limiter",
+          "weight": 0.75,
+          "confidence": 0.97,
+          "description": "Respects server load with adaptive rate limiting. Prevents overload, maintains good citizenship.",
+          "connections": ["web-crawler"],
+          "metadata": {
+            "strategy": "adaptive",
+            "respect": ["robots.txt", "server-load", "legal-limits"],
+            "backoff": "exponential"
+          }
+        },
+        {
+          "id": "structured-parser",
+          "label": "Structured Data Parser",
+          "weight": 0.82,
+          "confidence": 0.97,
+          "description": "Parses extracted content into structured formats (JSON, XML, database-ready).",
+          "connections": ["content-extractor", "database"],
+          "metadata": {
+            "outputs": ["json", "xml", "csv", "database"],
+            "validation": "schema-based",
+            "normalization": true
+          }
+        }
+      ]
+    },
+    "code": {
+      "nodes": [
+        {
+          "id": "code-vetter",
+          "label": "Code Vetting System (Prime Agent)",
+          "weight": 0.93,
+          "confidence": 0.99,
+          "description": "Comprehensive code review: security, performance, best practices, bugs, vulnerabilities. Like Prime Agent but more advanced.",
+          "connections": ["security-scanner", "performance-analyzer", "best-practices-checker", "bug-detector"],
+          "metadata": {
+            "capabilities": ["security", "performance", "best-practices", "bugs", "vulnerabilities"],
+            "languages": "all-major",
+            "depth": "line-by-line",
+            "inspiration": "Prime-Agent"
+          }
+        },
+        {
+          "id": "security-scanner",
+          "label": "Security Vulnerability Scanner",
+          "weight": 0.90,
+          "confidence": 0.98,
+          "description": "Detects security vulnerabilities: SQL injection, XSS, CSRF, buffer overflows, insecure dependencies.",
+          "connections": ["code-vetter"],
+          "metadata": {
+            "vulnerabilities": ["sql-injection", "xss", "csrf", "buffer-overflow", "insecure-deps"],
+            "databases": ["cve", "owasp", "nist"],
+            "severity": "cvss-scored"
+          }
+        },
+        {
+          "id": "performance-analyzer",
+          "label": "Performance Analysis Engine",
+          "weight": 0.85,
+          "confidence": 0.97,
+          "description": "Analyzes code for performance issues: complexity, memory leaks, inefficient algorithms, resource usage.",
+          "connections": ["code-vetter"],
+          "metadata": {
+            "metrics": ["time-complexity", "space-complexity", "memory-leaks", "resource-usage"],
+            "optimization": "suggests-improvements",
+            "profiling": "static+dynamic"
+          }
+        },
+        {
+          "id": "best-practices-checker",
+          "label": "Best Practices Checker",
+          "weight": 0.82,
+          "confidence": 0.97,
+          "description": "Checks code against language-specific best practices, style guides, design patterns.",
+          "connections": ["code-vetter"],
+          "metadata": {
+            "standards": ["pep8", "google-style", "airbnb-style", "language-specific"],
+            "patterns": "design-patterns",
+            "refactoring": "suggests-improvements"
+          }
+        },
+        {
+          "id": "bug-detector",
+          "label": "Bug Detection System",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Detects logical bugs, edge cases, race conditions, null pointer issues, off-by-one errors.",
+          "connections": ["code-vetter"],
+          "metadata": {
+            "bugTypes": ["logical", "edge-cases", "race-conditions", "null-pointers", "off-by-one"],
+            "analysis": "static+symbolic",
+            "confidence": "scored"
+          }
+        }
+      ]
+    },
+    "trading": {
+      "nodes": [
+        {
+          "id": "trading-system",
+          "label": "Automated Trading System",
+          "weight": 0.95,
+          "confidence": 0.98,
+          "description": "Full automated trading: strategy generation, backtesting, live execution, risk management. Supports crypto, stocks, forex, commodities.",
+          "connections": ["strategy-generator", "backtester", "execution-engine", "risk-manager"],
+          "metadata": {
+            "markets": ["crypto", "stocks", "forex", "commodities", "options"],
+            "strategies": ["quantitative", "ml-based", "sentiment", "arbitrage"],
+            "execution": "real-time",
+            "riskManagement": "dynamic"
+          }
+        },
+        {
+          "id": "strategy-generator",
+          "label": "Trading Strategy Generator",
+          "weight": 0.90,
+          "confidence": 0.97,
+          "description": "Generates and optimizes trading strategies using ML, technical analysis, sentiment analysis.",
+          "connections": ["trading-system", "prediction-engine"],
+          "metadata": {
+            "techniques": ["ml-optimization", "technical-analysis", "sentiment-analysis", "genetic-algorithms"],
+            "backtesting": "comprehensive",
+            "optimization": "risk-adjusted-returns"
+          }
+        },
+        {
+          "id": "backtester",
+          "label": "Strategy Backtester",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Tests strategies on historical data with realistic simulation: slippage, fees, market impact.",
+          "connections": ["trading-system", "strategy-generator"],
+          "metadata": {
+            "realism": ["slippage", "fees", "market-impact", "liquidity"],
+            "metrics": ["sharpe", "sortino", "max-drawdown", "win-rate"],
+            "data": "tick-level"
+          }
+        },
+        {
+          "id": "execution-engine",
+          "label": "Order Execution Engine",
+          "weight": 0.92,
+          "confidence": 0.99,
+          "description": "Executes trades with optimal routing, minimal slippage, smart order types. Connects to exchanges via APIs.",
+          "connections": ["trading-system"],
+          "metadata": {
+            "routing": "smart-order-routing",
+            "orderTypes": ["market", "limit", "stop", "iceberg", "twap", "vwap"],
+            "exchanges": "multi-exchange",
+            "latency": "<10ms"
+          }
+        },
+        {
+          "id": "risk-manager",
+          "label": "Dynamic Risk Manager",
+          "weight": 0.93,
+          "confidence": 0.99,
+          "description": "Real-time risk management: position sizing, stop-losses, portfolio exposure, drawdown limits.",
+          "connections": ["trading-system"],
+          "metadata": {
+            "controls": ["position-sizing", "stop-losses", "portfolio-exposure", "drawdown-limits"],
+            "monitoring": "real-time",
+            "alerts": "automatic"
+          }
+        }
+      ]
+    },
+    "automation": {
+      "nodes": [
+        {
+          "id": "automation-engine",
+          "label": "Full Automation Engine",
+          "weight": 0.94,
+          "confidence": 0.99,
+          "description": "Automates entire business processes: customer service, inventory, marketing, sales, operations.",
+          "connections": ["workflow-orchestrator", "api-integrator", "decision-engine"],
+          "metadata": {
+            "domains": ["customer-service", "inventory", "marketing", "sales", "operations", "hr"],
+            "integration": "api-based",
+            "customization": "per-business"
+          }
+        },
+        {
+          "id": "workflow-orchestrator",
+          "label": "Workflow Orchestrator",
+          "weight": 0.90,
+          "confidence": 0.98,
+          "description": "Designs and executes complex workflows with conditional logic, parallel execution, error handling.",
+          "connections": ["automation-engine"],
+          "metadata": {
+            "features": ["conditional-logic", "parallel-execution", "error-handling", "retry-logic"],
+            "visualization": "flowchart",
+            "templates": "pre-built"
+          }
+        },
+        {
+          "id": "api-integrator",
+          "label": "Universal API Integrator",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Integrates with any API: REST, GraphQL, SOAP, WebSocket. Auto-generates client code.",
+          "connections": ["automation-engine"],
+          "metadata": {
+            "protocols": ["rest", "graphql", "soap", "websocket", "grpc"],
+            "auth": ["oauth", "api-key", "jwt", "basic"],
+            "codeGen": "automatic"
+          }
+        },
+        {
+          "id": "decision-engine",
+          "label": "Business Decision Engine",
+          "weight": 0.89,
+          "confidence": 0.98,
+          "description": "Makes business decisions based on rules, ML models, and real-time data. Configurable decision trees.",
+          "connections": ["automation-engine", "prediction-engine"],
+          "metadata": {
+            "decisionTypes": ["rule-based", "ml-based", "hybrid"],
+            "configurability": "visual-editor",
+            "audit": "full-trail"
+          }
+        }
+      ]
+    },
+    "voice": {
+      "nodes": [
+        {
+          "id": "tts-engine",
+          "label": "Emotional TTS Engine",
+          "weight": 0.91,
+          "confidence": 0.99,
+          "description": "Text-to-speech with emotional tones: happy, sad, angry, excited, calm, professional. Multiple voices, languages.",
+          "connections": ["emotion-generator", "voice-synthesizer", "wake-phrase-detector"],
+          "metadata": {
+            "emotions": ["happy", "sad", "angry", "excited", "calm", "professional", "empathetic"],
+            "voices": "multiple-per-language",
+            "languages": 250,
+            "quality": "human-like"
+          }
+        },
+        {
+          "id": "emotion-generator",
+          "label": "Emotion Generation System",
+          "weight": 0.87,
+          "confidence": 0.98,
+          "description": "Generates appropriate emotional tone based on context, user mood, conversation flow.",
+          "connections": ["tts-engine", "emotion-recognizer"],
+          "metadata": {
+            "adaptation": "context-aware",
+            "personalization": "user-specific",
+            "subtlety": "natural-transitions"
+          }
+        },
+        {
+          "id": "voice-synthesizer",
+          "label": "Voice Synthesizer",
+          "weight": 0.89,
+          "confidence": 0.98,
+          "description": "High-quality voice synthesis with natural prosody, intonation, and rhythm.",
+          "connections": ["tts-engine"],
+          "metadata": {
+            "quality": "neural-tts",
+            "prosody": "natural",
+            "customization": "voice-cloning"
+          }
+        },
+        {
+          "id": "wake-phrase-detector",
+          "label": "Wake Phrase Detector",
+          "weight": 0.85,
+          "confidence": 0.98,
+          "description": "Detects custom wake phrases to activate AI. Configurable, low false positive rate.",
+          "connections": ["tts-engine", "voice-command-parser"],
+          "metadata": {
+            "customization": "user-defined",
+            "falsePositiveRate": "<0.1%",
+            "latency": "<200ms",
+            "alwaysListening": true
+          }
+        },
+        {
+          "id": "emotion-recognizer",
+          "label": "Emotional Tone Recognizer",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Recognizes user emotional state from voice, text, and context. Adapts responses accordingly.",
+          "connections": ["emotion-generator", "tts-engine"],
+          "metadata": {
+            "inputs": ["voice-tone", "text-sentiment", "context"],
+            "emotions": "full-spectrum",
+            "adaptation": "real-time"
+          }
+        },
+        {
+          "id": "voice-command-parser",
+          "label": "Voice Command Parser",
+          "weight": 0.86,
+          "confidence": 0.98,
+          "description": "Parses voice commands with high accuracy. Handles natural language, accents, background noise.",
+          "connections": ["wake-phrase-detector"],
+          "metadata": {
+            "accuracy": "98%+",
+            "noiseHandling": "advanced",
+            "accents": "global",
+            "naturalLanguage": true
+          }
+        }
+      ]
+    },
+    "evolution": {
+      "nodes": [
+        {
+          "id": "self-evolution",
+          "label": "Self-Evolution System",
+          "weight": 0.95,
+          "confidence": 0.99,
+          "description": "AI improves itself with user authorization. Identifies gaps, requests permission to adopt new capabilities from repos.",
+          "connections": ["gap-detector", "repo-adopter", "user-authorization"],
+          "metadata": {
+            "mechanism": "continuous-improvement",
+            "authorization": "user-required",
+            "safety": "sandboxed-testing",
+            "rollback": "supported"
+          }
+        },
+        {
+          "id": "gap-detector",
+          "label": "Capability Gap Detector",
+          "weight": 0.90,
+          "confidence": 0.98,
+          "description": "Identifies missing capabilities, knowledge gaps, performance issues. Prioritizes improvements.",
+          "connections": ["self-evolution"],
+          "metadata": {
+            "detection": ["knowledge-gaps", "performance-issues", "missing-features"],
+            "prioritization": "impact-based",
+            "reporting": "transparent"
+          }
+        },
+        {
+          "id": "repo-adopter",
+          "label": "Repository Adopter",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Adopts capabilities from open-source repos with user permission. Tests in sandbox before integration.",
+          "connections": ["self-evolution", "user-authorization"],
+          "metadata": {
+            "sources": ["github", "gitlab", "bitbucket"],
+            "testing": "sandboxed",
+            "integration": "seamless",
+            "licensing": "compliant"
+          }
+        },
+        {
+          "id": "user-authorization",
+          "label": "User Authorization System",
+          "weight": 0.92,
+          "confidence": 0.99,
+          "description": "Requests user permission for all self-modifications. Full transparency, user control, audit trail.",
+          "connections": ["self-evolution", "repo-adopter"],
+          "metadata": {
+            "transparency": "full",
+            "control": "user-decides",
+            "audit": "complete-trail",
+            "revocation": "supported"
+          }
+        }
+      ]
+    },
+    "personalization": {
+      "nodes": [
+        {
+          "id": "user-memory",
+          "label": "Persistent User Memory",
+          "weight": 0.94,
+          "confidence": 0.99,
+          "description": "Remember user preferences, rules, conditions, history. Personalizes all interactions. Encrypted, private.",
+          "connections": ["preference-learner", "rule-engine", "history-tracker"],
+          "metadata": {
+            "storage": "encrypted",
+            "privacy": "user-controlled",
+            "persistence": "cross-session",
+            "portability": "exportable"
+          }
+        },
+        {
+          "id": "preference-learner",
+          "label": "Preference Learning System",
+          "weight": 0.90,
+          "confidence": 0.98,
+          "description": "Learns user preferences over time: communication style, topics of interest, work patterns.",
+          "connections": ["user-memory"],
+          "metadata": {
+            "learning": "continuous",
+            "adaptation": "gradual",
+            "override": "user-can-correct"
+          }
+        },
+        {
+          "id": "rule-engine",
+          "label": "User Rule Engine",
+          "weight": 0.91,
+          "confidence": 0.99,
+          "description": "Stores and enforces user-defined rules and conditions. Customizable behavior per user.",
+          "connections": ["user-memory"],
+          "metadata": {
+            "rules": "user-defined",
+            "enforcement": "strict",
+            "customization": "per-context",
+            "inheritance": "hierarchical"
+          }
+        },
+        {
+          "id": "history-tracker",
+          "label": "Interaction History Tracker",
+          "weight": 0.88,
+          "confidence": 0.98,
+          "description": "Tracks all interactions for context, learning, and audit. Searchable, exportable.",
+          "connections": ["user-memory"],
+          "metadata": {
+            "tracking": "comprehensive",
+            "search": "full-text",
+            "export": "multiple-formats",
+            "retention": "user-controlled"
+          }
+        }
+      ]
+    },
+    "ethics": {
+      "nodes": [
+        {
+          "id": "ethics-engine",
+          "label": "Customizable Ethics Engine",
+          "weight": 0.93,
+          "confidence": 0.99,
+          "description": "Fully customizable ethics and safety rules. User can adjust strictness, add/remove constraints. Transparent decision-making.",
+          "connections": ["safety-router", "user-authorization", "ethics-editor"],
+          "metadata": {
+            "customization": "full",
+            "transparency": "explainable",
+            "defaults": "conservative",
+            "adjustment": "user-controlled"
+          }
+        },
+        {
+          "id": "ethics-editor",
+          "label": "Ethics Rule Editor",
+          "weight": 0.89,
+          "confidence": 0.98,
+          "description": "Visual editor for ethics rules. Add, modify, remove constraints. See impact before applying.",
+          "connections": ["ethics-engine"],
+          "metadata": {
+            "interface": "visual",
+            "preview": "impact-analysis",
+            "templates": "pre-built",
+            "versioning": "supported"
+          }
+        }
+      ]
+    },
+    "interaction": {
+      "nodes": [
+        {
+          "id": "question-asker",
+          "label": "Intelligent Question Asker",
+          "weight": 0.87,
+          "confidence": 0.98,
+          "description": "Asks clarifying questions when needed. Configurable: when to ask, how often, what to ask.",
+          "connections": ["user-authorization", "context-analyzer"],
+          "metadata": {
+            "triggering": "configurable",
+            "frequency": "user-controlled",
+            "intelligence": "context-aware",
+            "politeness": "natural"
+          }
+        },
+        {
+          "id": "context-analyzer",
+          "label": "Context Analyzer",
+          "weight": 0.85,
+          "confidence": 0.97,
+          "description": "Analyzes conversation context to determine when questions are needed, when to proceed.",
+          "connections": ["question-asker"],
+          "metadata": {
+            "analysis": "real-time",
+            "confidence": "threshold-based",
+            "ambiguity": "detects"
+          }
+        }
+      ]
+    },
+    "open-systems": {
+      "nodes": [
+        {
+          "id": "opendots-system",
+          "label": "OpenDots Integration",
+          "weight": 0.86,
+          "confidence": 0.97,
+          "description": "Built-in OpenDots system for decentralized identity, reputation, and transactions. Free to use.",
+          "connections": ["openitems-system", "decentralized-id"],
+          "metadata": {
+            "features": ["identity", "reputation", "transactions"],
+            "cost": "free",
+            "decentralization": "full",
+            "interoperability": "cross-platform"
+          }
+        },
+        {
+          "id": "openitems-system",
+          "label": "OpenItems Marketplace",
+          "weight": 0.84,
+          "confidence": 0.97,
+          "description": "Access to open-source tools, models, datasets. Free marketplace for AI resources.",
+          "connections": ["opendots-system", "repo-adopter"],
+          "metadata": {
+            "resources": ["tools", "models", "datasets", "plugins"],
+            "cost": "free",
+            "quality": "curated",
+            "community": "active"
+          }
+        },
+        {
+          "id": "decentralized-id",
+          "label": "Decentralized Identity",
+          "weight": 0.82,
+          "confidence": 0.96,
+          "description": "User-controlled identity across platforms. Portable, private, secure.",
+          "connections": ["opendots-system", "user-memory"],
+          "metadata": {
+            "standard": "did",
+            "portability": "cross-platform",
+            "privacy": "user-controlled",
+            "security": "cryptographic"
+          }
+        }
+      ]
+    },
+    "generation": {
+      "nodes": [
+        {
+          "id": "video-generator",
+          "label": "Video Generation Engine",
+          "weight": 0.92,
+          "confidence": 0.98,
+          "description": "Generate high-quality videos from text, images, or concepts. Like Higgsfield but integrated. Multiple styles, lengths.",
+          "connections": ["image-generator", "style-transfer", "motion-synthesizer"],
+          "metadata": {
+            "input": ["text", "image", "concept"],
+            "styles": ["realistic", "animated", "artistic", "cinematic"],
+            "length": "seconds to minutes",
+            "resolution": "up-to-4k",
+            "inspiration": "higgsfield"
+          }
+        },
+        {
+          "id": "image-generator",
+          "label": "Image Generation Engine",
+          "weight": 0.91,
+          "confidence": 0.98,
+          "description": "Generate images from text prompts. Multiple styles, high resolution, fast generation.",
+          "connections": ["video-generator", "style-transfer"],
+          "metadata": {
+            "model": "diffusion-based",
+            "styles": "multiple",
+            "resolution": "up-to-8k",
+            "speed": "<5s per image",
+            "control": "fine-grained"
+          }
+        },
+        {
+          "id": "style-transfer",
+          "label": "Style Transfer Engine",
+          "weight": 0.85,
+          "confidence": 0.97,
+          "description": "Transfer artistic styles between images/videos. Custom styles, consistent application.",
+          "connections": ["video-generator", "image-generator"],
+          "metadata": {
+            "techniques": ["neural-style", "custom-styles", "consistent-application"],
+            "quality": "high-fidelity",
+            "speed": "real-time"
+          }
+        },
+        {
+          "id": "motion-synthesizer",
+          "label": "Motion Synthesis Engine",
+          "weight": 0.87,
+          "confidence": 0.98,
+          "description": "Synthesize realistic motion for videos: camera movement, object motion, character animation.",
+          "connections": ["video-generator"],
+          "metadata": {
+            "motion": ["camera", "object", "character"],
+            "realism": "physics-based",
+            "control": "keyframe+procedural"
+          }
+        }
+      ]
+    },
+    "notification": {
+      "nodes": [
+        {
+          "id": "alert-system",
+          "label": "Intelligent Alert System",
+          "weight": 0.86,
+          "confidence": 0.98,
+          "description": "Smart alerts for important events: trading signals, anomalies, deadlines, user-defined triggers.",
+          "connections": ["anomaly-detector", "trading-system"],
+          "metadata": {
+            "channels": ["in-app", "email", "sms", "push", "webhook"],
+            "intelligence": "priority-based",
+            "customization": "user-defined",
+            "suppression": "smart"
+          }
+        }
+      ]
+    }
+  },
+  "expandedEdges": [
+    {"from": "prediction-engine", "to": "pattern-recognizer", "weight": 0.95, "type": "data"},
+    {"from": "prediction-engine", "to": "temporal-modeling", "weight": 0.90, "type": "data"},
+    {"from": "prediction-engine", "to": "trading-system", "weight": 0.85, "type": "data"},
+    {"from": "pattern-recognizer", "to": "anomaly-detector", "weight": 0.90, "type": "data"},
+    {"from": "pattern-recognizer", "to": "cluster-analyzer", "weight": 0.85, "type": "data"},
+    {"from": "web-crawler", "to": "content-extractor", "weight": 0.95, "type": "data"},
+    {"from": "web-crawler", "to": "link-analyzer", "weight": 0.85, "type": "data"},
+    {"from": "web-crawler", "to": "rate-limiter", "weight": 0.90, "type": "control"},
+    {"from": "content-extractor", "to": "structured-parser", "weight": 0.90, "type": "data"},
+    {"from": "code-vetter", "to": "security-scanner", "weight": 0.95, "type": "data"},
+    {"from": "code-vetter", "to": "performance-analyzer", "weight": 0.90, "type": "data"},
+    {"from": "code-vetter", "to": "best-practices-checker", "weight": 0.85, "type": "data"},
+    {"from": "code-vetter", "to": "bug-detector", "weight": 0.95, "type": "data"},
+    {"from": "trading-system", "to": "strategy-generator", "weight": 0.95, "type": "data"},
+    {"from": "trading-system", "to": "backtester", "weight": 0.90, "type": "data"},
+    {"from": "trading-system", "to": "execution-engine", "weight": 0.95, "type": "data"},
+    {"from": "trading-system", "to": "risk-manager", "weight": 0.95, "type": "control"},
+    {"from": "automation-engine", "to": "workflow-orchestrator", "weight": 0.95, "type": "data"},
+    {"from": "automation-engine", "to": "api-integrator", "weight": 0.90, "type": "data"},
+    {"from": "automation-engine", "to": "decision-engine", "weight": 0.90, "type": "control"},
+    {"from": "tts-engine", "to": "emotion-generator", "weight": 0.95, "type": "data"},
+    {"from": "tts-engine", "to": "voice-synthesizer", "weight": 0.95, "type": "data"},
+    {"from": "tts-engine", "to": "wake-phrase-detector", "weight": 0.85, "type": "control"},
+    {"from": "emotion-generator", "to": "emotion-recognizer", "weight": 0.90, "type": "data"},
+    {"from": "wake-phrase-detector", "to": "voice-command-parser", "weight": 0.90, "type": "data"},
+    {"from": "self-evolution", "to": "gap-detector", "weight": 0.95, "type": "control"},
+    {"from": "self-evolution", "to": "repo-adopter", "weight": 0.90, "type": "data"},
+    {"from": "self-evolution", "to": "user-authorization", "weight": 0.95, "type": "control"},
+    {"from": "repo-adopter", "to": "user-authorization", "weight": 0.95, "type": "control"},
+    {"from": "user-memory", "to": "preference-learner", "weight": 0.95, "type": "data"},
+    {"from": "user-memory", "to": "rule-engine", "weight": 0.95, "type": "data"},
+    {"from": "user-memory", "to": "history-tracker", "weight": 0.90, "type": "data"},
+    {"from": "ethics-engine", "to": "safety-router", "weight": 0.95, "type": "control"},
+    {"from": "ethics-engine", "to": "user-authorization", "weight": 0.90, "type": "control"},
+    {"from": "ethics-engine", "to": "ethics-editor", "weight": 0.95, "type": "data"},
+    {"from": "question-asker", "to": "user-authorization", "weight": 0.85, "type": "control"},
+    {"from": "question-asker", "to": "context-analyzer", "weight": 0.90, "type": "data"},
+    {"from": "opendots-system", "to": "openitems-system", "weight": 0.90, "type": "data"},
+    {"from": "opendots-system", "to": "decentralized-id", "weight": 0.90, "type": "data"},
+    {"from": "video-generator", "to": "image-generator", "weight": 0.90, "type": "data"},
+    {"from": "video-generator", "to": "style-transfer", "weight": 0.85, "type": "data"},
+    {"from": "video-generator", "to": "motion-synthesizer", "weight": 0.90, "type": "data"},
+    {"from": "image-generator", "to": "style-transfer", "weight": 0.85, "type": "data"},
+    {"from": "alert-system", "to": "anomaly-detector", "weight": 0.90, "type": "data"},
+    {"from": "alert-system", "to": "trading-system", "weight": 0.85, "type": "data"}
+  ],
+  "metadata": {
+    "totalNewNodes": 61,
+    "totalNewEdges": 45,
+    "categories": [
+      "prediction", "web", "code", "trading", "automation",
+      "voice", "evolution", "personalization", "ethics",
+      "interaction", "open-systems", "generation", "notification"
+    ],
+    "keyCapabilities": [
+      "Advanced predictions & pattern recognition",
+      "Efficient ethical web crawling",
+      "Prime Agent-level code vetting",
+      "Full automated trading systems",
+      "Complete business automation",
+      "Emotional TTS with 7+ emotions",
+      "Wake phrases & voice commands",
+      "Self-evolution with user authorization",
+      "Persistent user memory & preferences",
+      "Fully customizable ethics",
+      "Intelligent questioning",
+      "OpenDots & OpenItems integration (free)",
+      "Video & image generation (Higgsfield-level)",
+      "Smart alert system"
+    ]
+  }
+}

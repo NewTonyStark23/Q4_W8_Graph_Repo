@@ -1,0 +1,51 @@
+{
+  "backup_manifest": {
+    "version": "1.1.0",
+    "timestamp": "2026-01-XX",
+    "description": "Complete backup of Qwen3 Architecture Graph project with behavioral inference gap-filling",
+    "total_files": 16,
+    "total_lines": "~2500+"
+  },
+  "file_inventory": [
+    { "path": "index.html", "type": "entry", "status": "complete" },
+    { "path": "src/App.tsx", "type": "component", "status": "complete", "lines": 684 },
+    { "path": "src/main.tsx", "type": "entry", "status": "complete" },
+    { "path": "src/index.css", "type": "styles", "status": "complete" },
+    { "path": "src/data/types.ts", "type": "types", "status": "complete" },
+    { "path": "src/data/index.ts", "type": "aggregator", "status": "complete" },
+    { "path": "src/data/tokenizer.ts", "type": "data", "status": "complete", "nodes": 4 },
+    { "path": "src/data/embedding.ts", "type": "data", "status": "complete", "nodes": 4 },
+    { "path": "src/data/attention.ts", "type": "data", "status": "complete", "nodes": 8 },
+    { "path": "src/data/feedforward.ts", "type": "data", "status": "complete", "nodes": 7 },
+    { "path": "src/data/reasoning.ts", "type": "data", "status": "complete", "nodes": 8 },
+    { "path": "src/data/builder.ts", "type": "data", "status": "complete", "nodes": 8 },
+    { "path": "src/data/context.ts", "type": "data", "status": "complete", "nodes": 6 },
+    { "path": "src/data/training-inference.ts", "type": "data", "status": "complete", "nodes": 11 },
+    { "path": "src/data/safety-tools.ts", "type": "data", "status": "complete", "nodes": 11 },
+    { "path": "src/data/gap-filled.ts", "type": "data", "status": "complete", "nodes": 14 },
+    { "path": "src/data/comparison.ts", "type": "ratings", "status": "complete" },
+    { "path": "src/data/project-graphify.ts", "type": "self-ref", "status": "complete", "nodes": 33 },
+    { "path": "BEHAVIORAL_INFERENCE.md", "type": "docs", "status": "complete" },
+    { "path": "PROJECT_SUMMARY.md", "type": "docs", "status": "complete" }
+  ],
+  "graph_statistics": {
+    "qwen3_nodes": 86,
+    "qwen3_edges": 95,
+    "project_nodes": 33,
+    "project_edges": 42,
+    "total_nodes": 119,
+    "total_edges": 137,
+    "by_source": {
+      "observed": 35,
+      "inferred": 37,
+      "gap_filled": 14
+    },
+    "overall_confidence": 0.865,
+    "overall_graphify_score": 86.5
+  },
+  "build_status": {
+    "success": true,
+    "output_size": "221KB JS + 19KB CSS",
+    "modules": 41
+  }
+}

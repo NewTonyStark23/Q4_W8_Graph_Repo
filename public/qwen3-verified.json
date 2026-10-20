@@ -1,0 +1,102 @@
+{
+  "source": "Qwen3 Technical Report (arXiv:2505.09388, May 2025)",
+  "status": "VERIFIED",
+  "corrections": [
+    { "component": "KV Heads (MoE-235B)", "previous": 8, "verified": 4, "note": "GQA ratio 16:1" },
+    { "component": "Vocabulary Size", "previous": 151936, "verified": 151669, "note": "BBPE tokenizer" },
+    { "component": "Shared Experts", "previous": 1, "verified": 0, "note": "NONE in Qwen3 MoE" },
+    { "component": "Pre-training Tokens", "previous": "15T+", "verified": "36T", "note": "119 languages" },
+    { "component": "Flagship Layers", "previous": "~80", "verified": 94, "note": "Exact count" },
+    { "component": "QKV Bias", "previous": "present", "verified": "REMOVED", "note": "New in Qwen3" },
+    { "component": "QK-Norm", "previous": "not mentioned", "verified": "YES", "note": "NEW in Qwen3" }
+  ],
+  "denseModels": [
+    { "name": "Qwen3-0.6B", "layers": 28, "qHeads": 16, "kvHeads": 8, "context": "32K", "tieEmbedding": true },
+    { "name": "Qwen3-1.7B", "layers": 28, "qHeads": 16, "kvHeads": 8, "context": "32K", "tieEmbedding": true },
+    { "name": "Qwen3-4B", "layers": 36, "qHeads": 32, "kvHeads": 8, "context": "128K", "tieEmbedding": true },
+    { "name": "Qwen3-8B", "layers": 36, "qHeads": 32, "kvHeads": 8, "context": "128K", "tieEmbedding": false },
+    { "name": "Qwen3-14B", "layers": 40, "qHeads": 40, "kvHeads": 8, "context": "128K", "tieEmbedding": false },
+    { "name": "Qwen3-32B", "layers": 64, "qHeads": 64, "kvHeads": 8, "context": "128K", "tieEmbedding": false }
+  ],
+  "moeModels": [
+    { "name": "Qwen3-30B-A3B", "layers": 48, "qHeads": 32, "kvHeads": 4, "totalExperts": 128, "activeExperts": 8, "context": "128K" },
+    { "name": "Qwen3-235B-A22B", "layers": 94, "qHeads": 64, "kvHeads": 4, "totalExperts": 128, "activeExperts": 8, "context": "128K" }
+  ],
+  "architecture": {
+    "attention": {
+      "type": "GQA",
+      "qkNorm": true,
+      "qkvBias": false,
+      "ropeBaseFreq": 1000000,
+      "longContextTechniques": ["YARN", "DCA"],
+      "contextScaling": "4x"
+    },
+    "feedforward": {
+      "activation": "SwiGLU",
+      "moe": {
+        "totalExperts": 128,
+        "activeExperts": 8,
+        "sharedExperts": 0,
+        "segmentation": "fine-grained (DeepSeekMoE)",
+        "loadBalancing": "global-batch"
+      }
+    },
+    "normalization": { "type": "RMSNorm", "position": "pre" },
+    "tokenizer": { "type": "BBPE", "vocabSize": 151669 }
+  },
+  "training": {
+    "preTraining": {
+      "totalTokens": "36T",
+      "languages": 119,
+      "stages": [
+        { "name": "General (S1)", "tokens": "30T+", "seqLen": 4096 },
+        { "name": "Reasoning (S2)", "tokens": "5T", "seqLen": 4096 },
+        { "name": "Long Context", "tokens": "hundreds of B", "seqLen": 32768 }
+      ]
+    },
+    "postTraining": {
+      "stages": [
+        "Long-CoT Cold Start",
+        "Reasoning RL (GRPO, 3995 pairs)",
+        "Thinking Mode Fusion",
+        "General RL (20+ tasks, 3 reward types)"
+      ],
+      "distillation": {
+        "type": "Strong-to-Weak",
+        "phases": ["off-policy", "on-policy"],
+        "efficiency": "1/10 GPU hours"
+      }
+    }
+  },
+  "sampling": {
+    "thinking": { "temperature": 0.6, "topP": 0.95, "topK": 20 },
+    "nonThinking": { "temperature": 0.7, "topP": 0.8, "topK": 20, "presencePenalty": 1.5 }
+  },
+  "benchmarks": {
+    "flagship": {
+      "thinking": {
+        "AIME24": 85.7,
+        "AIME25": 81.5,
+        "MATH500": 96.4,
+        "LiveCodeBench": 70.7,
+        "CodeForces": 2056,
+        "BFCLv3": 70.8,
+        "ArenaHard": 95.6
+      },
+      "nonThinking": {
+        "AIME24": 40.1,
+        "AIME25": 24.7,
+        "MATH500": 91.2,
+        "LiveCodeBench": 35.3,
+        "CodeForces": 1387,
+        "BFCLv3": 68.0,
+        "ArenaHard": 96.1
+      }
+    }
+  },
+  "accuracy": {
+    "architecturalStructure": "94-96%",
+    "weightValues": "8-12%",
+    "overall": "94-96% (structure), 8-12% (weights)"
+  }
+}
