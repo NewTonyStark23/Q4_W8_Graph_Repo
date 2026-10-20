@@ -4,6 +4,8 @@ The Brain Map
 A comprehensive architectural graph of the Qwen4 AI model, mapping 161 nodes and 125+ edges with 94-96% accuracy. This brain map provides the intelligence layer for the unified agent, enabling 3-trillion parameter virtual capacity through graph traversal.
 🏗️ Architecture Overview
 
+graph spec: ~250 KB 
+
 161 total nodes mapped
 
 125+ edges showing connections
